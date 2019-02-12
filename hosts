@@ -1,0 +1,52 @@
+[OSEv3:children]
+masters
+nodes
+#etcd
+
+[OSEv3:vars]
+ansible_ssh_user=root
+openshift_deployment_type=openshift-enterprise
+#openshift_release=3.11
+
+openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider'}]
+openshift_master_htpasswd_users={'admin' : 'password'}
+
+
+oreg_auth_user=
+oreg_auth_password=
+
+openshift_disable_check=docker_image_availability,package_version
+
+openshift_master_default_subdomain=ocpapps.acepod.com
+openshift_use_nsx=true
+os_sdn_network_plugin_name=cni
+openshift_use_openshift_sdn=false
+openshift_node_sdn_mtu=1500
+
+# NSX specific configuration
+nsx_openshift_cluster_name='ocp-cl1'
+nsx_api_managers='192.168.110.26'
+nsx_api_user='admin'
+nsx_api_password='VMware1!'
+nsx_tier0_router='JUR01-T0'
+nsx_overlay_transport_zone='TZ-Overlay'
+nsx_container_ip_block='IPBlock-Pod-Networking'
+nsx_no_snat_ip_block='IPBlock-NONAT'
+nsx_external_ip_pool='Pool-NAT'
+nsx_top_fw_section='openshift-top'
+nsx_bottom_fw_section='openshift-bottom'
+nsx_ovs_uplink_port='ens224'
+nsx_cni_url='http://192.168.110.12/nsx-cni-2.3.2.11695762-1.x86_64.rpm'
+nsx_ovs_url='http://192.168.110.12/openvswitch-2.9.1.9968033.rhel75-1.x86_64.rpm'
+nsx_kmod_ovs_url='http://192.168.110.12/kmod-openvswitch-2.9.1.9968033.rhel75-1.el7.x86_64.rpm'
+
+[masters]
+ocp-master	ansible_ssh_host=10.11.1.10
+
+[etcd]
+ocp-master	ansible_ssh_host=10.11.1.10
+
+[nodes]
+ocp-master	ansible_ssh_host=10.11.1.10 openshift_node_group_name='node-config-master-infra'
+ocp-node01	ansible_ssh_host=10.11.1.11 openshift_node_group_name='node-config-compute'
+ocp-node02	ansible_ssh_host=10.11.1.12 openshift_node_group_name='node-config-compute'
