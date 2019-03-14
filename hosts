@@ -15,7 +15,7 @@ openshift_master_htpasswd_users={'admin' : 'password'}
 oreg_auth_user=
 oreg_auth_password=
 
-openshift_disable_check=docker_image_availability,package_version
+openshift_disable_check=package_version
 
 openshift_master_default_subdomain=ocpapps.acepod.com
 openshift_use_nsx=true
